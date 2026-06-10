@@ -1,0 +1,20 @@
+[package]
+name = "cpi-transfer-sol"
+version = "0.1.0"
+description = "Lesson 07 - CPI Transfer SOL"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "cpi_transfer_sol"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build"]
+
+[dependencies]
+anchor-lang = "0.31.1"

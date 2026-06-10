@@ -1,0 +1,17 @@
+{
+  "name": "26-bonding-curve-simulation",
+  "version": "0.1.0",
+  "description": "Lesson 26: 教学简化的 Pump.fun 风格 Bonding Curve 模型 - Virtual Reserve + Constant Product + Liquidity Migration 状态机",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "demo": "ts-node src/index.ts",
+    "test": "ts-node --transpile-only tests/curve.test.ts",
+    "build": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
