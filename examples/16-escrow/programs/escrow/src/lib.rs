@@ -28,6 +28,10 @@ pub enum ErrorCode {
     InsufficientTakerFunds,
     #[msg("Deposit amount mismatch")]
     AmountMismatch,
+    #[msg("Token account mint does not match expected mint")]
+    WrongMint,
+    #[msg("Token account owner does not match expected owner")]
+    WrongOwner,
 }
 
 /// 1. 创建 Escrow（同时初始化 vault Token Account，authority = escrow PDA）
@@ -110,18 +114,28 @@ pub struct Exchange<'info> {
 
     #[account(
         mut,
+        constraint = taker_token_b.owner == taker.key() @ ErrorCode::WrongOwner,
+        constraint = taker_token_b.mint == escrow.mint_b @ ErrorCode::WrongMint,
         constraint = taker_token_b.amount >= escrow.amount_b @ ErrorCode::InsufficientTakerFunds,
     )]
     pub taker_token_b: Account<'info, TokenAccount>,
 
-    #[account(mut)]
+    #[account(
+        mut,
+        constraint = taker_token_a.owner == taker.key() @ ErrorCode::WrongOwner,
+        constraint = taker_token_a.mint == escrow.mint_a @ ErrorCode::WrongMint,
+    )]
     pub taker_token_a: Account<'info, TokenAccount>,
 
-    #[account(mut)]
+    #[account(
+        mut,
+        constraint = maker_token_b.owner == escrow.maker @ ErrorCode::WrongOwner,
+        constraint = maker_token_b.mint == escrow.mint_b @ ErrorCode::WrongMint,
+    )]
     pub maker_token_b: Account<'info, TokenAccount>,
 
-    /// CHECK: 接收 escrow 关闭后的 lamports
-    #[account(mut)]
+    /// CHECK: 接收 escrow 关闭后的 lamports，必须等于 escrow.maker
+    #[account(mut, constraint = maker.key() == escrow.maker @ ErrorCode::Unauthorized)]
     pub maker: AccountInfo<'info>,
 
     pub taker: Signer<'info>,

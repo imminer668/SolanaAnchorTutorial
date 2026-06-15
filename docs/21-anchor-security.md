@@ -499,6 +499,9 @@ pub user_sale_ata: Account<'info, TokenAccount>,
 | ------ | ---- |
 | Vault token::authority = vault PDA | ✅ |
 | exchange 时 maker 收 token_b、taker 收 token_a | ✅ |
+| exchange 时 `maker_token_b` 校验 owner==escrow.maker、mint==mint_b | ✅ |
+| exchange 时 `taker_token_b`/`taker_token_a` 校验 owner/mint | ✅ |
+| exchange 时 `close = maker` 接收者校验 == escrow.maker | ✅ |
 | cancel 时只有 maker 可调用 | ✅ |
 | mint 校验（vault.mint == escrow.mint_a） | ✅ |
 | 二次 cancel 防御（escrow.vault.amount == 0 后） | ⚠️ lesson 未显式加 `is_active` 字段 |

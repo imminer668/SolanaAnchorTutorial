@@ -41,6 +41,8 @@ pub enum ErrorCode {
     AlreadyLocked,
     #[msg("Only the original authority can perform this action")]
     Unauthorized,
+    #[msg("Team wallet and community wallet must be different")]
+    WalletsDuplicated,
 }
 
 /// 1. 初始化：创建 mint，一次性 mint 全部 supply 给 team + community
@@ -127,6 +129,10 @@ pub mod meme_coin {
         require!(
             team_amount.checked_add(community_amount) == Some(total_supply),
             ErrorCode::AmountMismatch
+        );
+        require!(
+            ctx.accounts.team_wallet.key() != ctx.accounts.community_wallet.key(),
+            ErrorCode::WalletsDuplicated
         );
 
         let config = &mut ctx.accounts.config;

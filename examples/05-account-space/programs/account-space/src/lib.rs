@@ -42,6 +42,8 @@ pub enum ErrorCode {
     LabelTooLong,
     #[msg("Count would underflow")]
     Underflow,
+    #[msg("Count would overflow")]
+    Overflow,
     #[msg("Scores vector is full")]
     ScoresFull,
 }
@@ -97,7 +99,10 @@ pub mod account_space {
 
     pub fn increment(ctx: Context<ModifyCounter>) -> Result<()> {
         let counter = &mut ctx.accounts.counter;
-        counter.count = counter.count.checked_add(1).unwrap();
+        counter.count = counter
+            .count
+            .checked_add(1)
+            .ok_or(error!(ErrorCode::Overflow))?;
         Ok(())
     }
 
