@@ -1,5 +1,7 @@
 # EVM 开发者转型 Solana Anchor 实战教程
 
+> **Languages:** 简体中文 | [English](README.en.md)
+
 > 从 Solidity 到 Anchor，从 ERC20 到 SPL Token，从 Uniswap 到 Solana DeFi
 >
 > 面向具备 Solidity 开发经验的 Web3 开发者，通过 EVM 与 Solana 对照学习方式，快速掌握 Solana Program 开发、Anchor 框架、SPL Token、NFT、全栈开发与生产环境最佳实践。
